@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+odoo_basico_informacion,odoo_basico.informacion,model_odoo_basico_informacion,base.group_user,1,1,1,1
+odoo_basico_cabeceira,odoo_basico.cabeceira,model_odoo_basico_cabeceira,base.group_user,1,1,1,1
+odoo_basico_linea,odoo_basico.linea,model_odoo_basico_linea,base.group_user,1,1,1,1
