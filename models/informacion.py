@@ -13,6 +13,7 @@ class informacion (models.Model):
     autorizado = fields.Boolean(string="¿Autorizado?", default=True)
     sexo_traducido = fields.Selection([('Hombre', 'Home'), ('Mujer', 'Muller'), ('Otros', 'Outros')], string='Sexo')
     data = fields.Date(string="Data", default=lambda self: fields.Date.today())
+    data_hora = fields.Datetime(string="Hora", default=lambda self: fields.Datetime.now())
     alto_en_cms = fields.Integer(string="Alto en centímetros")
     longo_en_cms = fields.Integer(string="Longo en centímetros")
     ancho_en_cms = fields.Integer(string="Ancho en centímetros")

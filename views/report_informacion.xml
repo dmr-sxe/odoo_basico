@@ -36,6 +36,36 @@
                                     <th class="text-left">Sexo</th>
                                 </tr>
                             </thead>
+                            <tbody>
+                                <t t-foreach="docs" t-as="o">
+                                    <tr>
+                                        <td class="text-left">
+                                            <h5>
+                                                <span t-field="o.name"/>
+                                            </h5>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-field="o.peso"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <t t-if="o.autorizado == True">
+                                                <span>SI</span>
+                                            </t>
+                                            <t t-else="">
+                                                <span>NON</span>
+                                            </t>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-field="o.data"/>
+                                            <span>-</span>
+                                            <span t-field="o.data_hora"/>
+                                        </td>
+                                        <td class="text-left">
+                                            <span t-field="o.sexo_traducido"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
                         </table>
                     </div>
                 </div>
