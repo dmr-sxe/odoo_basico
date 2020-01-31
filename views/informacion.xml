@@ -60,7 +60,7 @@
             <field name="arch" type="xml">
                 <!-- <tree string="informacion Tree" editable ="top" decoration-success="autorizado == True" decoration-danger="autorizado == False">-->
                 <!--                Para editar os campos directamente na vista tree-->
-                <tree string="informacion Tree" editable ="top" decoration-success="autorizado == True" decoration-danger="autorizado == False">
+                <tree string="informacion Tree" decoration-success="autorizado == True" decoration-danger="autorizado == False">
                     <field name="name"/>
                     <field name="descripcion"/>
                     <field name="autorizado"/>
