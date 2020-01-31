@@ -24,6 +24,7 @@
                                     <field name="autorizado"/>
                                     <field name="sexo_traducido"/>
                                     <field name="data"/>
+                                    <field name="data_mes"/>
                                     <field name="data_hora"/>
                                     <field name="nome_adxunto" invisible="1"/>
                                     <field name="adxunto" filename="nome_adxunto"/>
