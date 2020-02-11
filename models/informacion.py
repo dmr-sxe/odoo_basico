@@ -80,7 +80,7 @@ class informacion (models.Model):
     @api.depends('data_hora')
     def _hora_usuario(self):
         for rexistro in self:  # Convertimos a hora UTC a hora do usuario
-            rexistro.hora_usuario = self.convirte_data_hora_de_utc_a_timezone_do_usuario(rexistro.data_hora).strftime("%H:%M:%S")
+            self.actualiza_hora()
 
     def ver_contexto(self): # Engadimos na vista un button no header. O name do button é o nome da función
         for rexistro in self: #Ao usar warning temos que importar a libreria from odoo.exceptions import Warning
@@ -98,3 +98,8 @@ class informacion (models.Model):
             raise Warning('Datetime.now() devolve a hora UTC %s cambiamola coa configuración horaria do usuario %s cambiamos tamén a do campo data_hora %s'
                        % (fields.Datetime.now().strftime ('%Y-%m-%d %H:%M'),data_hora_usuario_object,data_hora_do_campo_da_bd))
         return True
+
+    def actualiza_hora(self):
+        for rexistro in self:
+            rexistro.hora_usuario = self.convirte_data_hora_de_utc_a_timezone_do_usuario(rexistro.data_hora).strftime(
+                "%H:%M:%S")

@@ -27,6 +27,7 @@
         'views/cabeceira.xml',
         'views/linea.xml',
         'views/templates.xml',
+        'views/report_header.xml',
         'views/report_informacion.xml',
         'views/menu.xml',
         'security/ir.model.access.csv',

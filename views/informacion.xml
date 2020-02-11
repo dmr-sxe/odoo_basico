@@ -18,6 +18,7 @@
                     <header>
                         <button name="ver_contexto" type="object" string="Ver Contexto"/>
                         <button name="data_hora_local" type="object" string="Localización da Data hora"/>
+                        <button name="actualiza_hora" type="object" string="Actualizar hora" class="oe_highlight"/>
                     </header>
                     <sheet>
                         <notebook>
