@@ -2,6 +2,8 @@
 
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
+from odoo.exceptions import Warning
+import pytz
 
 class informacion (models.Model):
     _name="odoo_basico.informacion" # Será o nome da táboa
@@ -13,8 +15,10 @@ class informacion (models.Model):
     autorizado = fields.Boolean(string="¿Autorizado?", default=True)
     sexo_traducido = fields.Selection([('Hombre', 'Home'), ('Mujer', 'Muller'), ('Otros', 'Outros')], string='Sexo')
     data = fields.Date(string="Data", default=lambda self: fields.Date.today())
-    data_mes = fields.Text(compute="_mes_data", size=15, store=True)
-    data_hora = fields.Datetime(string="Hora", default=lambda self: fields.Datetime.now())
+    mes_data = fields.Char(compute="_mes_data", size=15, store=True)
+    data_hora = fields.Datetime(string="Data e Hora", default=lambda self: fields.Datetime.now())
+    hora_utc  = fields.Char(compute="_hora_utc",string="Hora UTC", size=15, store=True)
+    hora_usuario  = fields.Char(compute="_hora_usuario",string="Hora Usuario", size=15, store=True)
     alto_en_cms = fields.Integer(string="Alto en centímetros")
     longo_en_cms = fields.Integer(string="Longo en centímetros")
     ancho_en_cms = fields.Integer(string="Ancho en centímetros")
@@ -65,7 +69,32 @@ class informacion (models.Model):
 
     @api.depends('data')
     def _mes_data(self):
+        for rexistro in self: #O idioma é o configurado en locale na máquina de odoo
+            rexistro.mes_data = rexistro.data.strftime("%B")
+
+    @api.depends('data_hora')
+    def _hora_utc(self):
+        for rexistro in self: # A hora se almacena na BD en horario UTC (2 horas menos no verán, 1 hora menos no inverno)
+            rexistro.hora_utc = rexistro.data_hora.strftime("%H:%M:%S")
+
+    @api.depends('data_hora')
+    def _hora_usuario(self):
+        for rexistro in self:  # Convertimos a hora UTC a hora do usuario
+            rexistro.hora_usuario = self.convirte_data_hora_de_utc_a_timezone_do_usuario(rexistro.data_hora).strftime("%H:%M:%S")
+
+    def ver_contexto(self): # Engadimos na vista un button no header. O name do button é o nome da función
+        for rexistro in self: #Ao usar warning temos que importar a libreria from odoo.exceptions import Warning
+            raise Warning('Contexto: %s' % rexistro.env.context) #env.context é un diccionario  https://www.w3schools.com/python/python_dictionaries.asp
+        return True
+
+    def convirte_data_hora_de_utc_a_timezone_do_usuario(self,data_hora_utc_object):  # recibe a data hora en formato object
+        usuario_timezone = pytz.timezone(self.env.user.tz or 'UTC')  # obter a zona horaria do usuario
+        return pytz.UTC.localize(data_hora_utc_object).astimezone(usuario_timezone)  # hora co horario do usuario en formato object
+
+    def data_hora_local(self):
+        data_hora_usuario_object = self.convirte_data_hora_de_utc_a_timezone_do_usuario(fields.Datetime.now())
         for rexistro in self:
-            rexistro.data_mes = rexistro.data.strftime("%B")
-
-
+            data_hora_do_campo_da_bd = self.convirte_data_hora_de_utc_a_timezone_do_usuario(rexistro.data_hora)
+            raise Warning('Datetime.now() devolve a hora UTC %s cambiamola coa configuración horaria do usuario %s cambiamos tamén a do campo data_hora %s'
+                       % (fields.Datetime.now().strftime ('%Y-%m-%d %H:%M'),data_hora_usuario_object,data_hora_do_campo_da_bd))
+        return True

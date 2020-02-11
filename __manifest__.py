@@ -26,9 +26,9 @@
         'views/informacion.xml',
         'views/cabeceira.xml',
         'views/linea.xml',
-        'views/menu.xml',
         'views/templates.xml',
         'views/report_informacion.xml',
+        'views/menu.xml',
         'security/ir.model.access.csv',
     ],
     # only loaded in demonstration mode

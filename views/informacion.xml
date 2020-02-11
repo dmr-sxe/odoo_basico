@@ -15,6 +15,10 @@
             <field name="model">odoo_basico.informacion</field>
             <field name="arch" type="xml">
                 <form string="Formulario información">
+                    <header>
+                        <button name="ver_contexto" type="object" string="Ver Contexto"/>
+                        <button name="data_hora_local" type="object" string="Localización da Data hora"/>
+                    </header>
                     <sheet>
                         <notebook>
                             <page string="Datos persoais">
@@ -24,8 +28,10 @@
                                     <field name="autorizado"/>
                                     <field name="sexo_traducido"/>
                                     <field name="data"/>
-                                    <field name="data_mes"/>
+                                    <field name="mes_data"/>
                                     <field name="data_hora"/>
+                                    <field name="hora_utc"/>
+                                    <field name="hora_usuario"/>
                                     <field name="nome_adxunto" invisible="1"/>
                                     <field name="adxunto" filename="nome_adxunto"/>
                                     <field name="foto" widget="image" class="oe_avatar"/>
@@ -61,12 +67,17 @@
             <field name="arch" type="xml">
                 <!-- <tree string="informacion Tree" editable ="top" decoration-success="autorizado == True" decoration-danger="autorizado == False">-->
                 <!--                Para editar os campos directamente na vista tree-->
-                <tree string="informacion Tree" decoration-success="autorizado == True" decoration-danger="autorizado == False">
+                <!--                <tree string="informacion Tree" editable ="top" decoration-success="autorizado == True" decoration-danger="autorizado == False">-->
+                <tree string="informacion Tree">
                     <field name="name"/>
                     <field name="descripcion"/>
+                    <field name="peso"/>
                     <field name="autorizado"/>
                     <field name="sexo_traducido"/>
                     <field name="data"/>
+                    <field name="data_hora"/>
+                    <field name="hora_utc"/>
+                    <field name="hora_usuario"/>
                 </tree>
             </field>
         </record>
