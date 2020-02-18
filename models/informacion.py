@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import locale
 
 from odoo import models, fields, api
 from odoo.exceptions import ValidationError
@@ -8,6 +9,7 @@ import pytz
 class informacion (models.Model):
     _name="odoo_basico.informacion" # Será o nome da táboa
     _description = "Tipos de datos básicos"
+    _order = "data_hora desc"
     _sql_constraints = [('nome unico', 'unique(name)', 'Non se pode repetir o nome')]
 
     name = fields.Char(required=True,size=20,string="Titulo")
@@ -19,6 +21,7 @@ class informacion (models.Model):
     data_hora = fields.Datetime(string="Data e Hora", default=lambda self: fields.Datetime.now())
     hora_utc  = fields.Char(compute="_hora_utc",string="Hora UTC", size=15, store=True)
     hora_usuario  = fields.Char(compute="_hora_usuario",string="Hora Usuario", size=15, store=True)
+    mes_castelan = fields.Char(compute="_mes_castelan", size=15, store=True)
     alto_en_cms = fields.Integer(string="Alto en centímetros")
     longo_en_cms = fields.Integer(string="Longo en centímetros")
     ancho_en_cms = fields.Integer(string="Ancho en centímetros")
@@ -69,8 +72,15 @@ class informacion (models.Model):
 
     @api.depends('data')
     def _mes_data(self):
+        locale.setlocale(locale.LC_TIME, "gl_ES.utf8")
         for rexistro in self: #O idioma é o configurado en locale na máquina de odoo
             rexistro.mes_data = rexistro.data.strftime("%B")
+
+    @api.depends('data')
+    def _mes_castelan(self):
+        locale.setlocale(locale.LC_TIME, "es_ES.utf8")
+        for rexistro in self:
+            rexistro.mes_castelan = rexistro.data.strftime("%B")
 
     @api.depends('data_hora')
     def _hora_utc(self):
